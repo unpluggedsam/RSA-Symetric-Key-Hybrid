@@ -1,11 +1,12 @@
+import java.math.BigInteger;
+
 public class Packet {
 
     private final int[] binary;
-    private final int[] key;
+    private final BigInteger key;
     private final OneTimePad.KEY_SIZE size;
 
-    public Packet(int[] binary, int[]
-            key, OneTimePad.KEY_SIZE size) {
+    public Packet(int[] binary, BigInteger key, OneTimePad.KEY_SIZE size) {
         this.binary = binary;
         this.key = key;
         this.size = size;
@@ -15,7 +16,7 @@ public class Packet {
         return binary;
     }
 
-    public int[] getKey() {
+    public BigInteger getKey() {
         return key;
     }
 
