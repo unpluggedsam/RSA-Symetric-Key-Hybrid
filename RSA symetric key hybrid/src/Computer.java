@@ -4,8 +4,7 @@ import java.math.BigInteger;
 
 public class Computer {
 
-    private final List<String> recentMessages = new ArrayList<String>();
-
+    private final List<String> recentMessages = new ArrayList<>();
     private final BigInteger publicKey;
     private final BigInteger privateKey;
     private final BigInteger mod;
@@ -81,9 +80,8 @@ public class Computer {
             for(int i = 0; i < difference; i++){
                 newBinary[i] = 0;
             }
-            for(int i = difference; i < keySize; i++){
-                newBinary[i] = binary[i-difference];
-            }
+            if (keySize - difference >= 0)
+                System.arraycopy(binary, 0, newBinary, difference, keySize - difference);
             binary = newBinary;
         }
         return binary;
