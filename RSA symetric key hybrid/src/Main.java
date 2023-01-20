@@ -13,7 +13,8 @@ public class Main {
 
         Packet packet = computer1.sendMessage(computer2, text, OneTimePad.KEY_SIZE.ONE_HUNDRED_TWENTY_EIGHT);
 
-        System.out.println(OneTimePad.decryptBinary(packet.getBinary(), convertDecimalToBinary(packet.getKey(), packet.getKeySize().getSize())));
+        System.out.println(packet.getKeySize());
+        System.out.println(OneTimePad.decryptBinary(packet.getBinary(), convertDecimalToBinary(packet.getKey(), OneTimePad.KEY_SIZE.TWO_HUNDRED_FIFTY_SIX.getSize())));
         System.out.println(computer2.getRecentMessages().get(0));
 
     }

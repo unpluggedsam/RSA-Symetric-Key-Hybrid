@@ -20,13 +20,14 @@ public class Computer {
         OneTimePad pad = new OneTimePad();
         int[] key = pad.generateKey(size);
         BigInteger encryptedDecimalKey = convertKeyToDecimalAndEncrypt(key, computer);
-        Packet packet = new Packet(OneTimePad.encryptString(message, key), encryptedDecimalKey, size);
+        BigInteger encryptedSize = cipher(BigInteger.valueOf(size.getSize()), computer.getPublicKey(), computer.getMod());
+        Packet packet = new Packet(OneTimePad.encryptString(message, key), encryptedDecimalKey, encryptedSize);
         computer.receiveMessage(packet);
         return packet;
     }
 
     public void receiveMessage(Packet packet) {
-        String decryptedMessage = OneTimePad.decryptBinary(packet.getBinary(), convertKeyToBinaryAndDecrypt(packet.getKey(), packet.getKeySize()));
+        String decryptedMessage = OneTimePad.decryptBinary(packet.getBinary(), convertKeyToBinaryAndDecrypt(packet.getKey(), OneTimePad.KEY_SIZE.valueOf(cipher(packet.getKeySize(), this.privateKey, this.mod).intValue()).get()));
         recentMessages.add(decryptedMessage);
     }
 
@@ -47,11 +48,11 @@ public class Computer {
     }
 
     private int[] convertKeyToBinaryAndDecrypt(BigInteger key, OneTimePad.KEY_SIZE size) {
-        return convertDecimalToBinary(cipher(key, this.privateKey, this.getMod()), size.getSize());
+        return convertDecimalToBinary(cipher(key, this.privateKey, this.mod), size.getSize());
     }
 
-    private BigInteger cipher(BigInteger binaryKeyAsDecimal, BigInteger publicKey, BigInteger modulus) {
-        return binaryKeyAsDecimal.modPow(publicKey, modulus);
+    private BigInteger cipher(BigInteger binaryKeyAsDecimal, BigInteger key, BigInteger modulus) {
+        return binaryKeyAsDecimal.modPow(key, modulus);
     }
 
     private BigInteger convertBinaryToDecimal(int[] binary) {
@@ -76,10 +77,10 @@ public class Computer {
             binary[i] = binaryList.get(binary.length - 1 - i);
         }
 
-        if(binary.length < keySize){
+        if (binary.length < keySize) {
             int[] newBinary = new int[keySize];
             int difference = keySize - binary.length;
-            for(int i = 0; i < difference; i++){
+            for (int i = 0; i < difference; i++) {
                 newBinary[i] = 0;
             }
             if (keySize - difference >= 0)

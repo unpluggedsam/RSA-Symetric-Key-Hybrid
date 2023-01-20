@@ -4,9 +4,9 @@ public class Packet {
 
     private final int[] binary;
     private final BigInteger key;
-    private final OneTimePad.KEY_SIZE size;
+    private final BigInteger size;
 
-    public Packet(int[] binary, BigInteger key, OneTimePad.KEY_SIZE size) {
+    public Packet(int[] binary, BigInteger key, BigInteger size) {
         this.binary = binary;
         this.key = key;
         this.size = size;
@@ -20,7 +20,7 @@ public class Packet {
         return key;
     }
 
-    public OneTimePad.KEY_SIZE getKeySize() {
+    public BigInteger getKeySize() {
         return size;
     }
 }

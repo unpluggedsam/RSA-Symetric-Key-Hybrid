@@ -2,6 +2,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class OneTimePad {
@@ -17,6 +18,12 @@ public class OneTimePad {
 
         int getSize() {
             return size;
+        }
+
+        public static Optional<KEY_SIZE> valueOf(int value) {
+            return Arrays.stream(values())
+                    .filter(key_size -> key_size.getSize() == value)
+                    .findFirst();
         }
     }
 
