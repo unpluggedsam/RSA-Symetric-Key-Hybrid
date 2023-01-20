@@ -11,15 +11,15 @@ public class Packet {
         this.size = size;
     }
 
-    public int[] interceptBinary() {
+    public int[] getBinary() {
         return binary;
     }
 
-    public int[] interceptKey() {
+    public int[] getKey() {
         return key;
     }
 
-    public OneTimePad.KEY_SIZE interceptKeySize() {
+    public OneTimePad.KEY_SIZE getKeySize() {
         return size;
     }
 }
