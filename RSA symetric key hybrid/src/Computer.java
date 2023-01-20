@@ -16,15 +16,17 @@ public class Computer {
         this.mod = key.getModulus();
     }
 
-    public void sendMessage(Computer computer, String message, OneTimePad.KEY_SIZE size) {
+    public Packet sendMessage(Computer computer, String message, OneTimePad.KEY_SIZE size) {
         OneTimePad pad = new OneTimePad();
         int[] key = pad.generateKey(size);
         BigInteger encryptedDecimalKey = convertKeyToDecimalAndEncrypt(key, computer);
-        computer.receiveMessage(OneTimePad.encryptString(message, key), encryptedDecimalKey, size);
+        Packet packet = new Packet(OneTimePad.encryptString(message, key), encryptedDecimalKey, size);
+        computer.receiveMessage(packet);
+        return packet;
     }
 
-    public void receiveMessage(int[] messageBinary, BigInteger key, OneTimePad.KEY_SIZE size) {
-        String decryptedMessage = OneTimePad.decryptBinary(messageBinary, convertKeyToBinaryAndDecrypt(key, size));
+    public void receiveMessage(Packet packet) {
+        String decryptedMessage = OneTimePad.decryptBinary(packet.getBinary(), convertKeyToBinaryAndDecrypt(packet.getKey(), packet.getKeySize()));
         recentMessages.add(decryptedMessage);
     }
 
