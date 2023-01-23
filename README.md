@@ -1,4 +1,4 @@
-# RSA-symetric-key-hybrid
+# RSA encryption simulation
 This project is a simulation of sending encrypted packets across a network. It makes use of my <a href="https://github.com/unpluggedsam/symmetric-key-algorithim">Symmetric Key</a> 
 and <a href="https://github.com/unpluggedsam/RSA-Cryptosystem">RSA Cryptosystem</a> algorithims. The simulation allows a user to create
 `Computer` objects and send `Packet`'s between them. It encrypts the packet, sends it over, then decrypts it on the other side. The program also allows
